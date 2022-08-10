@@ -1,19 +1,14 @@
 package com.hermes.recruitment.controller;
 
 import com.hermes.recruitment.model.Sala;
-import com.hermes.recruitment.model.dto.SalaDTO;
 import com.hermes.recruitment.service.SalaService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -31,11 +26,11 @@ public class SalaController {
             @ApiResponse(code = 204, message = "Nicio sala nu e valabila")}
     )
     @GetMapping("/getAll")
-    public ResponseEntity<List<Sala>> getSali()
-    {
+    public ResponseEntity<List<Sala>> getSali() {
         List<Sala> sali = service.getSali();
-        if (sali.isEmpty())
+        if (sali.isEmpty()) {
             return ResponseEntity.noContent().build();
+        }
         return ResponseEntity.ok(sali);
     }
 
@@ -50,11 +45,11 @@ public class SalaController {
     )
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<Sala> getSala(@PathVariable Long id)
-    {
+    public ResponseEntity<Sala> getSala(@PathVariable Long id) {
         Sala sala = service.getSalaId(id);
-        if (sala == null)
+        if (sala == null){
             return ResponseEntity.noContent().build();
+        }
         return ResponseEntity.ok(sala);
     }
 
@@ -67,8 +62,7 @@ public class SalaController {
     )
 
     @PostMapping("/save")
-    public ResponseEntity<Void> save(@RequestBody List<String> data,  String numar)
-    {
+    public ResponseEntity<Void> save(@RequestBody List<String> data, String numar) {
         service.save(data, numar);
         return ResponseEntity.ok().build();
     }
@@ -82,17 +76,14 @@ public class SalaController {
             @ApiResponse(code = 204, message = "Nu a fost gasita")}
     )
 
-    @PostMapping("/deletesala/{id}")
-    public ResponseEntity<Void> deleteSala(@PathVariable Long id)
-    {
-        Sala book = service.getSalaId(id);
-        if (book != null)
-        {
-            service.deleteSala(id);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteSala(@PathVariable Long id) {
+        if (service.deleteSala(id)) {
             return ResponseEntity.ok().build();
         }
-        else
+        else {
             return ResponseEntity.noContent().build();
+        }
     }
 
     @ApiOperation(
@@ -104,9 +95,8 @@ public class SalaController {
             @ApiResponse(code = 204, message = "Nu a fost gasita")}
     )
 
-    @PostMapping("/deleteora/{id, ora}")
-    public ResponseEntity<Void> deleteSalaOra(@RequestParam Long id, @RequestParam String ora)
-    {
+    @DeleteMapping("/delete/ora/{id, ora}")
+    public ResponseEntity<Void> deleteSalaOra(@RequestParam Long id, @RequestParam String ora) {
         Sala book = service.getSalaId(id);
         if (book != null)
         {

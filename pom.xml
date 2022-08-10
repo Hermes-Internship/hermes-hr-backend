@@ -12,7 +12,7 @@
     </parent>
 
     <groupId>org.example</groupId>
-    <artifactId>Book</artifactId>
+    <artifactId>Sala</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -47,11 +47,5 @@
             <artifactId>springfox-boot-starter</artifactId>
             <version>3.0.0</version>
         </dependency>
-        <dependency>
-            <groupId>io.github.cyrilschumacher</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>1.6.4</version>
-        </dependency>
     </dependencies>
-
 </project>

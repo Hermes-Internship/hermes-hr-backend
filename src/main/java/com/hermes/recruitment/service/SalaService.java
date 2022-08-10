@@ -1,7 +1,6 @@
 package com.hermes.recruitment.service;
 
 import com.hermes.recruitment.model.Sala;
-import com.hermes.recruitment.model.dto.SalaDTO;
 import com.hermes.recruitment.repository.ISalaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,11 +14,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SalaService {
     private final ISalaRepository repository;
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public void save(List<String> data, String numar)
     {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        if (repository.findByNumar(numar) != null)
+        if (repository.getByNumar(numar) != null)
         {
             Sala el = repository.getByNumar(numar);
             for (String elem : data)
@@ -52,14 +51,20 @@ public class SalaService {
         return repository.findById(id).orElse(null);
     }
 
-    public void deleteSala(Long id)
+    public boolean deleteSala(Long id)
     {
-        repository.deleteById(id);
+        if(repository.findById(id).isPresent()) {
+            repository.deleteById(id);
+            return true;
+        }
+        else {
+            return false;
+        }
+
     }
 
     public void deleteSalaOra(Long id, String ora)
     {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime dateTime = LocalDateTime.parse(ora, formatter);
         Sala sala = repository.getReferenceById(id);
         if(repository.findById(id).isPresent())
@@ -69,26 +74,22 @@ public class SalaService {
 
     public void saveSalaOra(Long id, String ora)
     {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime dateTime = LocalDateTime.parse(ora, formatter);
         Sala sala = repository.getReferenceById(id);
         if(repository.findById(id).isPresent())
-            sala.getData().add(dateTime);;
+            sala.getData().add(dateTime);
         repository.save(sala);
     }
 
     public void updateSala(Long id, List<String> data, String numar)
     {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         ArrayList<LocalDateTime> date = new ArrayList<>();
         for (String elem : data)
         {
             LocalDateTime dateTime = LocalDateTime.parse(elem, formatter);
             date.add(dateTime);
         }
-        deleteSala(id);
         Sala sala = new Sala(id, numar, date);
         repository.save(sala);
-
     }
 }
