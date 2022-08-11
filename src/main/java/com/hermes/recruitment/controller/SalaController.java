@@ -116,7 +116,7 @@ public class SalaController {
             @ApiResponse(code = 204, message = "Nu a fost gasita")}
     )
 
-    @PostMapping("/saveora/{id, ora}")
+    @PostMapping("/save/ora")
     public ResponseEntity<Void> saveSalaOra(@RequestParam Long id, @RequestParam String ora)
     {
         Sala book = service.getSalaId(id);
