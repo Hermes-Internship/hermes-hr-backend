@@ -95,7 +95,7 @@ public class SalaController {
             @ApiResponse(code = 204, message = "Nu a fost gasita")}
     )
 
-    @DeleteMapping("/delete/ora/{id, ora}")
+    @DeleteMapping("/delete/ora")
     public ResponseEntity<Void> deleteSalaOra(@RequestParam Long id, @RequestParam String ora) {
         Sala book = service.getSalaId(id);
         if (book != null)
